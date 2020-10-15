@@ -1,0 +1,21 @@
+{
+  "name": "projects-dashboard",
+  "version": "1.0.0",
+  "description": "Projects DashBoard",
+  "main": "projects-dashboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel src/projects-dashboard.js",
+    "build": "parcel build src/projects-dashboard.js",
+    "build-table": "parcel build src/collapsible-table.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
