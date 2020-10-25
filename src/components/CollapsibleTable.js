@@ -2,51 +2,52 @@ import React from "react";
 
 const CollapsibleTable = (props) => {
   const _this = props._this;
-  var tableData = _this.context.binding
+  const tableData = _this.context.binding
     ? _this.context.binding.get("value")
     : {};
-  var fieldsData = _this.context.options.fieldNames
+  const fieldsData = _this.context.options.fieldNames
     ? _this.context.options.fieldNames.get("value")
-    : {};
-  var collapsibleFields = _this.context.options.collapsibleFields
+    : null;
+  const collapsibleFields = _this.context.options.collapsibleFields
     ? _this.context.options.collapsibleFields.get("value")
-    : {};
-  var editBtn = _this.context.options.editButton
+    : null;
+  const _collapsibleFields = collapsibleFields ? collapsibleFields.items : [];
+  const editBtn = _this.context.options.editButton
     ? _this.context.options.editButton.get("value")
     : "";
-  var _fields = [];
-  var _element = _this.context.element;
+  const _fields = [];
+  const _element = _this.context.element;
   //    var _head = _element.querySelector("thead");
   //    var _headTr = _head.appendChild(document.createElement('tr'));
 
-  /*
-    Object.keys(tableData.items[0]).map(function(item, index) {
-      var _th = _headTr.appendChild(document.createElement('th'));
-      var _thContent = item;
-      fieldsData.items.map(function(field,index) {
+  Object.keys(tableData.items[0]).map(function (item) {
+    let _value = item;
+    if (fieldsData) {
+      fieldsData.items.map(function (field) {
         if (item === field["name"]) {
-          _thContent = field["value"];
+          _value = field["value"];
         }
       });
-      _th.textContent = _thContent;
-      _fields.push(item);
-    });
-    if (editBtn) {
-      _headTr.appendChild(document.createElement('th'));
     }
-    
-    var _body = _element.querySelector("tbody");
-    var collapsedTableData = [];
-    tableData.items.map(function(item,index) {
-      var _item = item; 
-      Object.keys(_item).map(function(key) {
-        if (key === collapsibleFields.items[0] && 
-            collapsedTableData.indexOf(_item[key]) === -1) {
-          collapsedTableData.push(_item[key]);
+    _fields.push({ item: item, value: _value });
+  });
+
+  //    var _body = _element.querySelector("tbody");
+  const collapsedTableData = [];
+  if (collapsibleFields) {
+    tableData.items.map(function (item) {
+      Object.keys(item).map(function (key) {
+        if (
+          key === collapsibleFields.items[0] &&
+          collapsedTableData.indexOf(item[key]) === -1
+        ) {
+          collapsedTableData.push(item[key]);
         }
-      })
-    })
-    
+      });
+    });
+  }
+
+  /*
     collapsedTableData.map(function(item, index) {
       var _tr = _body.appendChild(document.createElement('tr'));
       _fields.map(function(field, i) { 
@@ -112,12 +113,39 @@ const CollapsibleTable = (props) => {
     <table className="collapsed-table">
       <thead>
         <tr>
-          {Object.keys(tableData.items[0]).map((item, index) => (
-            <th key={index}>{item}</th>
+          {_fields.map((item, index) => (
+            <th key={index}>{item.value}</th>
           ))}
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        {collapsedTableData.length == 0 &&
+          tableData.items.map((item, index) => (
+            <tr key={index}>
+              {_fields.map((field, i) => (
+                <td key={i}>
+                  <span className="collapsed_table-item">
+                    {item[field.item]}
+                  </span>
+                </td>
+              ))}
+            </tr>
+          ))}
+        {collapsedTableData.map((item, index) => (
+          <tr key={index}>
+            {_fields.map((field, i) => (
+              <td key={i}>
+                {_collapsibleFields.length > 0 &&
+                  field === _collapsibleFields[0] && (
+                    <span className="collapsed_row">&nbsp;&nbsp;&nbsp;</span>
+                  )}
+                <span className="collapsed_table-item">{item}</span>
+              </td>
+            ))}
+          </tr>
+        ))}
+        <tr className="hidden_table-row"></tr>
+      </tbody>
     </table>
   );
 };
