@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import CollapsibleTableHeader from "./CollapsibleTableHeader";
+import CollapsibleTableBody from "./CollapsibleTableBody";
 
 const CollapsibleTable = (props) => {
   const _this = props._this;
@@ -15,11 +17,12 @@ const CollapsibleTable = (props) => {
   const editBtn = _this.context.options.editButton
     ? _this.context.options.editButton.get("value")
     : "";
-  const _fields = [];
+  const countFields = _this.context.options.countFields ? _this.context.options.countFields.get("value") : null;
+  const _countFields = countFields ? countFields.items : [];
+  const _countCheckField = _this.context.options.countCheckField ? _this.context.options.countCheckField.get("value") : '_';
   const _element = _this.context.element;
-  //    var _head = _element.querySelector("thead");
-  //    var _headTr = _head.appendChild(document.createElement('tr'));
 
+  const _fields = [];
   Object.keys(tableData.items[0]).map(function (item) {
     let _value = item;
     if (fieldsData) {
@@ -32,7 +35,6 @@ const CollapsibleTable = (props) => {
     _fields.push({ item: item, value: _value });
   });
 
-  //    var _body = _element.querySelector("tbody");
   const collapsedTableData = [];
   if (collapsibleFields) {
     tableData.items.map(function (item) {
@@ -47,7 +49,25 @@ const CollapsibleTable = (props) => {
     });
   }
 
-  /*
+  return (
+    <table className="collapsed-table">
+      <CollapsibleTableHeader fields={_fields}></CollapsibleTableHeader>
+      <CollapsibleTableBody
+        collapsedTableData={collapsedTableData}
+        tableData={tableData}
+        fields={_fields}
+        collapsibleFields={_collapsibleFields}
+        countFields={_countFields}
+        countCheckField={_countCheckField}
+      ></CollapsibleTableBody>
+    </table>
+  );
+};
+
+export default CollapsibleTable;
+// --global: ProjectsDashboard
+
+/*
     collapsedTableData.map(function(item, index) {
       var _tr = _body.appendChild(document.createElement('tr'));
       _fields.map(function(field, i) { 
@@ -109,46 +129,3 @@ const CollapsibleTable = (props) => {
     var _tr_end = _body.appendChild(document.createElement('tr'));
     _tr_end.classList.add('hidden_table-row');
 */
-  return (
-    <table className="collapsed-table">
-      <thead>
-        <tr>
-          {_fields.map((item, index) => (
-            <th key={index}>{item.value}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {collapsedTableData.length == 0 &&
-          tableData.items.map((item, index) => (
-            <tr key={index}>
-              {_fields.map((field, i) => (
-                <td key={i}>
-                  <span className="collapsed_table-item">
-                    {item[field.item]}
-                  </span>
-                </td>
-              ))}
-            </tr>
-          ))}
-        {collapsedTableData.map((item, index) => (
-          <tr key={index}>
-            {_fields.map((field, i) => (
-              <td key={i}>
-                {_collapsibleFields.length > 0 &&
-                  field === _collapsibleFields[0] && (
-                    <span className="collapsed_row">&nbsp;&nbsp;&nbsp;</span>
-                  )}
-                <span className="collapsed_table-item">{item}</span>
-              </td>
-            ))}
-          </tr>
-        ))}
-        <tr className="hidden_table-row"></tr>
-      </tbody>
-    </table>
-  );
-};
-
-export default CollapsibleTable;
-// --global: ProjectsDashboard
