@@ -117,6 +117,7 @@ const CollapsibleTableExpandableBlock = (props) => {
                 })}
               </td>
             ))}
+            {props.editBtn && (<td className="table-cell__btn"></td>)}
           </tr>
           {isExpanded(item) && (
             <>
@@ -130,6 +131,8 @@ const CollapsibleTableExpandableBlock = (props) => {
                   countCheckField={_countCheckField}
                   ind={_index + 1}
                   prevLevel={addLevel(props.prevLevel, item)} //prev lev data
+                  editBtn={props.editBtn}
+                  btn_click={props.btn_click}
                 ></CollapsibleTableExpandableBlock>
               )}
               {_collapsibleFields.length <= _index + 1 &&
@@ -144,6 +147,7 @@ const CollapsibleTableExpandableBlock = (props) => {
                             </span>
                           </td>
                         ))}
+                        {props.editBtn && (<td className="table-cell__btn"><button className="table-btn" onClick={(e) => props.btn_click(tableItem, ind)}>{props.editBtn}</button></td>)}
                       </tr>
                     );
                   }

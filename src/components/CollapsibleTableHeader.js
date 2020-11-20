@@ -7,6 +7,7 @@ const CollapsibleTableHeader = (props) => {
         {props.fields.map((item, index) => (
           <th key={index}>{item.value}</th>
         ))}
+        {props.editBtn && (<th className="table-header__btn"></th>)}
       </tr>
     </thead>
   );

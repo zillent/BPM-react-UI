@@ -14,12 +14,20 @@ const CollapsibleTable = (props) => {
     ? _this.context.options.collapsibleFields.get("value")
     : null;
   const _collapsibleFields = collapsibleFields ? collapsibleFields.items : [];
+  const hiddenFields = _this.context.options.hiddenFields
+    ? _this.context.options.hiddenFields.get("value")
+    : null;
+  const _hiddenFields = hiddenFields ? hiddenFields.items : [];
   const editBtn = _this.context.options.editButton
     ? _this.context.options.editButton.get("value")
     : "";
-  const countFields = _this.context.options.countFields ? _this.context.options.countFields.get("value") : null;
+  const countFields = _this.context.options.countFields
+    ? _this.context.options.countFields.get("value")
+    : null;
   const _countFields = countFields ? countFields.items : [];
-  const _countCheckField = _this.context.options.countCheckField ? _this.context.options.countCheckField.get("value") : '_';
+  const _countCheckField = _this.context.options.countCheckField
+    ? _this.context.options.countCheckField.get("value")
+    : "_";
   const _element = _this.context.element;
 
   const _fields = [];
@@ -32,7 +40,14 @@ const CollapsibleTable = (props) => {
         }
       });
     }
-    _fields.push({ item: item, value: _value });
+    let isHidden = false;
+    _hiddenFields &&
+      _hiddenFields.map(function (_item) {
+        if (item === _item) {
+          isHidden = true;
+        }
+      });
+    !isHidden && _fields.push({ item: item, value: _value });
   });
 
   const collapsedTableData = [];
@@ -51,7 +66,7 @@ const CollapsibleTable = (props) => {
 
   return (
     <table className="collapsed-table">
-      <CollapsibleTableHeader fields={_fields}></CollapsibleTableHeader>
+      <CollapsibleTableHeader fields={_fields} editBtn={editBtn}></CollapsibleTableHeader>
       <CollapsibleTableBody
         collapsedTableData={collapsedTableData}
         tableData={tableData}
@@ -59,6 +74,8 @@ const CollapsibleTable = (props) => {
         collapsibleFields={_collapsibleFields}
         countFields={_countFields}
         countCheckField={_countCheckField}
+        editBtn={editBtn}
+        _this={_this}
       ></CollapsibleTableBody>
     </table>
   );
