@@ -9,7 +9,8 @@
     "dev-errors": "parcel src/errors-dashboard.js",
     "build": "parcel build src/projects-dashboard.js",
     "build-table": "parcel build src/collapsible-table.js",
-    "build-errors": "parcel build src/errors-dashboard.js"
+    "build-errors": "parcel build src/errors-dashboard.js",
+    "build-excel": "parcel build src/export-excel.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,8 +18,10 @@
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
+    "file-saver": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-styled-components": "^0.1.11"
+    "react-styled-components": "^0.1.11",
+    "xlsx": "^0.16.9"
   }
 }
