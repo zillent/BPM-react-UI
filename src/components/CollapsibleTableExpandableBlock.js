@@ -29,8 +29,10 @@ const CollapsibleTableExpandableBlock = (props) => {
 
   const collapsedControl = [];
   collapsedTableData.map(function (item) {
-    collapsedControl.push({ item: item, value: true });
+    collapsedControl.push({ item: item, value: (typeof props.expandAll === "boolean") ? !props.expandAll : true});
   });
+  console.log(props.expandAll);
+  console.log(collapsedControl);
 
   const [collapsedItems, setCollapsedItems] = useState(collapsedControl);
 
@@ -133,6 +135,7 @@ const CollapsibleTableExpandableBlock = (props) => {
                   prevLevel={addLevel(props.prevLevel, item)} //prev lev data
                   editBtn={props.editBtn}
                   btn_click={props.btn_click}
+                  expandAll={props.expandAll}                  
                 ></CollapsibleTableExpandableBlock>
               )}
               {_collapsibleFields.length <= _index + 1 &&

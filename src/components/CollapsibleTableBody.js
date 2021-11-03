@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import CollapsibleTableExpandableBlock from "./CollapsibleTableExpandableBlock";
 
-
-
 const CollapsibleTableBody = (props) => {
   const collapsedTableData = props.collapsedTableData;
   const tableData = props.tableData;
@@ -13,13 +11,10 @@ const CollapsibleTableBody = (props) => {
   const _this = props._this;
 
   const btn_click = (el, ind) => {
-    
-   // console.log(typeof ind);
-  //  console.log(tableData[ind]);
     if (typeof el === 'object') {
-      console.log(el);
+//      console.log(el);
       ind = tableData.items.indexOf(el);
-      console.log(ind);
+//      console.log(ind);
       _this.context.binding.get("value").set("listAllSelectedIndices" , [ind]);
       _this.context.trigger();
     }
@@ -56,6 +51,7 @@ const CollapsibleTableBody = (props) => {
           countCheckField={_countCheckField}
           prevLevel={[]}
           editBtn={props.editBtn}
+          expandAll={props.expandAll}
           btn_click={btn_click}
         ></CollapsibleTableExpandableBlock>
       )}
